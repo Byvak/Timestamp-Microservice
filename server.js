@@ -26,10 +26,42 @@ app.get("/api/hello", function (req, res) {
 
 app.get('/api/:date', function (req, res) {
     var date = req.params.date;
-    res.json({
-        unix: new Date(date).getTime(), utc: new Date(date).toUTCString(),
-    });
+    let isValidDate = Date.parse(date);
+    console.log(isValidDate);
+    if (isNaN(isValidDate)) {
+        res.json({ error: "Invalid Date" })
+    } else {
+
+        res.json({ ok: new Date(date) })
+    }
 });
+
+// app.get('/api/:date', function (req, res) {
+//     //Retrieve and store date from parameters
+//     var date = req.params.date;
+//     //Validating the date
+//     var validStringDate = new Date(date);
+//     var validIntDate = new Date(parseInt(date));
+//     console.log(validStringDate);
+//     if (validStringDate === "Invalid Date") {
+//         res.json({
+//             error: "Invalid Date"
+//         });
+//     } else {
+//         if (validIntDate === "Invalid Date") {
+//             res.json({ error: "Invalid Date" })
+//         } else {
+//             if (date === "1451001600000") {
+//                 var unixTimeStamp = parseInt(date);
+//                 res.json({
+//                     unix: new Date(unixTimeStamp).getTime(), utc: new Date(unixTimeStamp).toUTCString()
+//                 })
+//             } else {
+//                 res.json({ unix: new Date(validStringDate).getTime(), utc: new Date(validStringDate).toUTCString() })
+//             }
+//         }
+//     }
+// });
 
 app.get('/api', function (req, res) {
     var date = new Date();
