@@ -26,12 +26,23 @@ app.get("/api/hello", function (req, res) {
 
 app.get('/api/:date', function (req, res) {
     var date = req.params.date;
-    let isValidDate = Date.parse(date);
-    console.log(isValidDate);
-    if (isNaN(isValidDate)) {
-        res.json({ error: "Invalid Date" })
+    let isValid = new Date(date);
+    console.log(isValid);
+    if (isValid == 'Invalid Date') {
+        let isInteger = parseInt(date);
+        let isValidInteger = new Date(isInteger);
+        if (isValidInteger == 'Invalid Date') {
+            res.json({
+                error: "Invalid Date"
+            })
+        } else {
+            res.json({ unix: isValidInteger.getTime(), utc: isValidInteger.toUTCString() })
+        }
+        //res.json({ error: "Invalid Date" });
     } else {
-        res.json({ ok: new Date(date) })
+        res.json({
+            unix: isValid.getTime(), utc: isValid.toUTCString()
+        });
     }
 });
 
@@ -54,7 +65,7 @@ app.get('/api/:date', function (req, res) {
 //             if (date === "1451001600000") {
 //                 var unixTimeStamp = parseInt(date);
 //                 res.json({
-//                     unix: new Date(unixTimeStamp).getTime(), utc: new Date(unixTimeStamp).toUTCString()
+//                     unix: new Date(unixTimeStamp).getTime()/1000, utc: new Date(unixTimeStamp).toUTCString()
 //                 })
 //             } else {
 //                 res.json({ unix: new Date(validStringDate).getTime(), utc: new Date(validStringDate).toUTCString() })
