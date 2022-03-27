@@ -34,13 +34,15 @@ app.get('/api/:date', function (req, res) {
             unix: new Date(date).getTime(), utc: new Date(date).toUTCString()
         })
     } else {
-        if (date == '1451001600000') {
+        var dateInt = parseInt(date);
+        var isCorrect = new Date(dateInt);
+        if (isCorrect == 'Invalid Date') {
             res.json({
-                unix: new Date(parseInt(date)).getTime() / 1000, utc: new Date(parseInt(date)).toUTCString()
+                error: "Invalid Date"
             })
         } else {
             res.json({
-                error: "Invalid Date"
+                unix: parseInt(date), utc: new Date(dateInt).toUTCString()
             })
         }
     }
