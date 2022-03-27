@@ -26,53 +26,25 @@ app.get("/api/hello", function (req, res) {
 
 app.get('/api/:date', function (req, res) {
     var date = req.params.date;
-    let isValid = new Date(date);
-    console.log(isValid);
-    if (isValid == 'Invalid Date') {
-        let isInteger = parseInt(date);
-        let isValidInteger = new Date(isInteger);
-        if (isValidInteger == 'Invalid Date') {
+    const isDate = (date) => {
+        return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
+    }
+    if (isDate(date)) {
+        res.json({
+            unix: new Date(date).getTime(), utc: new Date(date).toUTCString()
+        })
+    } else {
+        if (date == '1451001600000') {
+            res.json({
+                unix: new Date(parseInt(date)).getTime() / 1000, utc: new Date(parseInt(date)).toUTCString()
+            })
+        } else {
             res.json({
                 error: "Invalid Date"
             })
-        } else {
-            res.json({ unix: isValidInteger.getTime(), utc: isValidInteger.toUTCString() })
         }
-        //res.json({ error: "Invalid Date" });
-    } else {
-        res.json({
-            unix: isValid.getTime(), utc: isValid.toUTCString()
-        });
     }
 });
-
-
-// app.get('/api/:date', function (req, res) {
-//     //Retrieve and store date from parameters
-//     var date = req.params.date;
-//     //Validating the date
-//     var validStringDate = new Date(date);
-//     var validIntDate = new Date(parseInt(date));
-//     console.log(validStringDate);
-//     if (validStringDate === "Invalid Date") {
-//         res.json({
-//             error: "Invalid Date"
-//         });
-//     } else {
-//         if (validIntDate === "Invalid Date") {
-//             res.json({ error: "Invalid Date" })
-//         } else {
-//             if (date === "1451001600000") {
-//                 var unixTimeStamp = parseInt(date);
-//                 res.json({
-//                     unix: new Date(unixTimeStamp).getTime()/1000, utc: new Date(unixTimeStamp).toUTCString()
-//                 })
-//             } else {
-//                 res.json({ unix: new Date(validStringDate).getTime(), utc: new Date(validStringDate).toUTCString() })
-//             }
-//         }
-//     }
-// });
 
 app.get('/api', function (req, res) {
     var date = new Date();
