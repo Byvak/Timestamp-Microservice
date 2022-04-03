@@ -2,6 +2,9 @@
     "name": "fcc-api-projects-boilerplate",
     "version": "0.0.1",
     "description": "An FCC Backend Challenge",
+    "author": {
+        "name": "Burnny Kibonge"
+    },
     "main": "server.js",
     "scripts": {
         "start": "node server.js"
